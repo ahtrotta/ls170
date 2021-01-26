@@ -1,7 +1,11 @@
 #!/bin/bash
 
-function () {
-
+function server () {
+  while true
+  do
+    read message
+    echo You said: $message
+  done
 }
 
 coproc SERVER_PROCESS { server; }
