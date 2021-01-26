@@ -3,8 +3,15 @@
 function server () {
   while true
   do
-    read message
-    echo You said: $message
+    read method path version
+    if [[ $method = 'GET' ]]
+    then
+      if [[ -e ./www$path ]]
+      then
+      fi
+    else
+      echo HTTP/1.1 400 Bad Request
+    fi
   done
 }
 
