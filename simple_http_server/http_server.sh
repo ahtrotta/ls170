@@ -3,18 +3,29 @@
 function server () {
   while true
   do
-    read method path version
+    message_arr=()
+    check=true
+    while $check
+    do
+      read line
+      message_arr+=($line)
+      if [[ "${#line}" -eq 1 ]]
+      then
+        check=false
+      fi
+    done
+    method=${message_arr[0]}
+    path=${message_arr[1]}
     if [[ $method = 'GET' ]]
     then
-      if [[ -f ./www$path ]]
+      if [[ -f "./www/$path" ]]
       then
-        file=$(cat ./www$path)
-        echo -en "HTTP/1.1 200 OK\r\n \r\n$file"
+        echo -ne 'HTTP/1.1 200 OK\r\n\r\n'; cat "./www/$path"
       else
-        echo -e "HTTP/1.1 404 Not Found\r\n"
+        echo -ne 'HTTP/1.1 404 Not Found\r\n\r\n'
       fi
     else
-      echo -e "HTTP/1.1 404 Not Found\r\n"
+      echo -ne 'HTTP/1.1 400 Bad Request\r\n\r\n'
     fi
   done
 }
